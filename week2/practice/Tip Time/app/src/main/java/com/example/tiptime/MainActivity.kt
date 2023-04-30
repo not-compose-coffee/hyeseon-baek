@@ -1,9 +1,9 @@
 package com.example.tiptime
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tiptime.ui.theme.TipTimeTheme
-import java.lang.String.format
 import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
@@ -43,8 +42,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TipTimeScreen() {
     var amountInput by remember { mutableStateOf("") }
+    var tipInput by remember { mutableStateOf("") }
+    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tip = calculateTip(amount,tipPercent)
     Column(
         modifier = Modifier
             .padding(32.dp),
@@ -60,8 +61,14 @@ fun TipTimeScreen() {
                 .height(16.dp)
         )
         EditNumberField(
+            label = R.string.bill_amount,
             value = amountInput,
             onValueChange = { amountInput = it }
+        )
+        EditNumberField(
+            label = R.string.how_was_the_service,
+            value = tipInput ,
+            onValueChange = { tipInput  = it }
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
@@ -77,11 +84,12 @@ fun TipTimeScreen() {
 @Composable
 fun EditNumberField(
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    @StringRes label : Int
 ){
     /* textfield는 material design 표현, 기본 스타일이 존재함 */
     TextField(
-        label = {Text(text = stringResource(R.string.cost_of_service))},
+        label = {Text(text = stringResource(label))},
         modifier = Modifier.
             fillMaxWidth(),
         singleLine = true,

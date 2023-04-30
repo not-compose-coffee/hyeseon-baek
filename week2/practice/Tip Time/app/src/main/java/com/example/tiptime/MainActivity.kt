@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TipTimeScreen() {
+    var amountInput by remember { mutableStateOf("") }
+    val amount = amountInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
     Column(
         modifier = Modifier
             .padding(32.dp),
@@ -55,26 +59,34 @@ fun TipTimeScreen() {
             modifier = Modifier
                 .height(16.dp)
         )
-        EditNumberField()
+        EditNumberField(
+            value = amountInput,
+            onValueChange = { amountInput = it }
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.tip_amount, tip),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
+
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
-fun EditNumberField(){
+fun EditNumberField(
+    value: String,
+    onValueChange: (String) -> Unit
+){
     /* textfield는 material design 표현, 기본 스타일이 존재함 */
-    var amountInput by remember {
-        mutableStateOf("")
-    }
-    val amount = amountInput.toDoubleOrNull()?: 0.0
-    val tip = calculateTip(amount)
     TextField(
         label = {Text(text = stringResource(R.string.cost_of_service))},
         modifier = Modifier.
             fillMaxWidth(),
         singleLine = true,
-        value = amountInput,
-        onValueChange = {amountInput =  it},
+        value = value,
+        onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }

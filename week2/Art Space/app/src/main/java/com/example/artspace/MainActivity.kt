@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    //ArtSpaceApp()
+                    ArtSpaceApp()
                 }
             }
         }
@@ -181,5 +181,6 @@ fun ShowTitle(
 @Composable
 fun DefaultPreview() {
     ArtSpaceTheme {
+        ArtSpaceApp()
     }
 }

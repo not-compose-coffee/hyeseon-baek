@@ -51,6 +51,8 @@ fun ArtSpaceScreen(
     imageResource: Int,
     title: String,
     artist: String,
+    onPrevClick: () -> Unit,
+    onNextClick: () -> Unit
 ){
     Column (
         modifier = modifier.fillMaxSize(),
@@ -74,12 +76,12 @@ fun ArtSpaceScreen(
             modifier = modifier.weight(1F)
         ){
             Button(
-                onClick = {  },
+                onClick = onPrevClick,
             ) {
                 Text(stringResource(R.string.prv_button_text))
             }
             Button(
-                onClick = {  },
+                onClick = onNextClick,
             ) {
                 Text(stringResource(R.string.next_button_text))
             }

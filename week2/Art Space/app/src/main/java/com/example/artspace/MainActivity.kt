@@ -44,6 +44,53 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@Composable
+fun ArtSpaceApp() {
+    /*
+    import androidx.compose.runtime.* 해줘야함 잊지말기
+     */
+    var currentIndex by remember {
+        mutableStateOf(0)
+    }
+    when (currentIndex) {
+        0 -> {
+            ArtSpaceScreen(
+                imageResource = R.drawable.girl_with_pearl,
+                title = stringResource(R.string.girl_pearl_title),
+                artist = stringResource(R.string.girl_pearl_artist),
+                onPrevClick = { currentIndex = 3 },
+                onNextClick = { currentIndex++ }
+            )
+        }
+        1 -> {
+            ArtSpaceScreen(
+                imageResource = R.drawable.mona_lisa,
+                title = stringResource(R.string.mona_lisa_title),
+                artist = stringResource(R.string.mona_lisa_artist),
+                onPrevClick = { currentIndex-- },
+                onNextClick = { currentIndex++ }
+            )
+        }
+        2 -> {
+            ArtSpaceScreen(
+                imageResource = R.drawable.memory,
+                title = stringResource(R.string.memory_title),
+                artist = stringResource(R.string.memory_artist),
+                onPrevClick = { currentIndex-- },
+                onNextClick = { currentIndex++ }
+            )
+        }
+        3 -> {
+            ArtSpaceScreen(
+                imageResource = R.drawable.scream,
+                title = stringResource(R.string.scream_title),
+                artist = stringResource(R.string.scream_artist),
+                onPrevClick = { currentIndex-- },
+                onNextClick = { currentIndex = 0 }
+            )
+        }
+    }
+}
 
 @Composable
 fun ArtSpaceScreen(
@@ -59,6 +106,7 @@ fun ArtSpaceScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
+        Spacer(modifier = modifier.weight(3F))
         ShowGalleryImage(
             imageResource = imageResource,
             modifier = modifier.
@@ -80,12 +128,14 @@ fun ArtSpaceScreen(
             ) {
                 Text(stringResource(R.string.prv_button_text))
             }
+            Spacer(modifier = modifier.width(20.dp))
             Button(
                 onClick = onNextClick,
             ) {
                 Text(stringResource(R.string.next_button_text))
             }
         }
+        Spacer(modifier = modifier.weight(2F))
     }
 }
 @Composable

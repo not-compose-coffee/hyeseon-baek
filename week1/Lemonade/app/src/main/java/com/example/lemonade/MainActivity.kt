@@ -53,6 +53,7 @@ fun LemonadeCard(
     val result = remember {
         mutableStateOf(1)
     }
+    var countSqueezed : Int = (1..4).random()
     var imageResource: Int = R.drawable.lemon_tree
     var description : Int = R.string.firstTap_string
     when (result.value) {
@@ -94,10 +95,15 @@ fun LemonadeCard(
                         color = colorResource(R.color.corner_color)
                     )
                     .clickable {
-                        if (result.value == 4) {
-                            result.value = 1
-                        } else {
-                            result.value++
+                        when (result.value) {
+                            2 -> if (countSqueezed == 0) {
+                                result.value++
+                            }
+                            else{
+                                countSqueezed--
+                            }
+                            4 -> result.value = 1
+                            else -> result.value++
                         }
                     }
             )

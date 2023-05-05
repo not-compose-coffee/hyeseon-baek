@@ -3,12 +3,10 @@ package com.example.artspace
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,18 +15,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.artspace.data.Gallery
 import com.example.artspace.ui.theme.ArtSpaceTheme
+import com.example.artspace.ui.theme.MainViewModel
 
 class MainActivity : ComponentActivity() {
+    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,7 +35,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    ArtSpaceApp()
+                    ArtSpaceApp(viewModel.getGalleryData())
                 }
             }
         }
@@ -45,51 +44,30 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ArtSpaceApp() {
+fun ArtSpaceApp(galleryData: List<Gallery>) {
     /*
     import androidx.compose.runtime.* 해줘야함 잊지말기
      */
     var currentIndex by remember {
         mutableStateOf(0)
     }
-    when (currentIndex) {
-        0 -> {
-            ArtSpaceScreen(
-                imageResource = R.drawable.girl_with_pearl,
-                title = stringResource(R.string.girl_pearl_title),
-                artist = stringResource(R.string.girl_pearl_artist),
-                onPrevClick = { currentIndex = 3 },
-                onNextClick = { currentIndex++ }
-            )
-        }
-        1 -> {
-            ArtSpaceScreen(
-                imageResource = R.drawable.mona_lisa,
-                title = stringResource(R.string.mona_lisa_title),
-                artist = stringResource(R.string.mona_lisa_artist),
-                onPrevClick = { currentIndex-- },
-                onNextClick = { currentIndex++ }
-            )
-        }
-        2 -> {
-            ArtSpaceScreen(
-                imageResource = R.drawable.memory,
-                title = stringResource(R.string.memory_title),
-                artist = stringResource(R.string.memory_artist),
-                onPrevClick = { currentIndex-- },
-                onNextClick = { currentIndex++ }
-            )
-        }
-        3 -> {
-            ArtSpaceScreen(
-                imageResource = R.drawable.scream,
-                title = stringResource(R.string.scream_title),
-                artist = stringResource(R.string.scream_artist),
-                onPrevClick = { currentIndex-- },
-                onNextClick = { currentIndex = 0 }
-            )
-        }
+
+    val setPositionPrevious: () -> Unit = {
+        if (currentIndex == 0) currentIndex = 3
+        else currentIndex--
     }
+    val setPositionNext: () -> Unit = {
+        if (currentIndex == 3) currentIndex = 0
+        else currentIndex++
+    }
+
+    ArtSpaceScreen(
+        imageResource = galleryData[currentIndex].artImageResource,
+        title = stringResource(galleryData[currentIndex].title),
+        artist = stringResource(galleryData[currentIndex].artistName),
+        onPrevClick = setPositionPrevious,
+        onNextClick = setPositionNext
+    )
 }
 
 @Composable
@@ -181,6 +159,6 @@ fun ShowTitle(
 @Composable
 fun DefaultPreview() {
     ArtSpaceTheme {
-        ArtSpaceApp()
+
     }
 }

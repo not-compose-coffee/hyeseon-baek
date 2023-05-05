@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyCard</string>
+    <string name="main_card_name">Hyeseon Baek</string>
+    <string name="main_card_description">Junior Android Developer</string>
+    <string name="main_card_tel">010-1111-2222</string>
+    <string name="main_card_email">konkukbhs@gmail.com</string>
+    <string name="main_card_id">sxunea</string>
+    <string name="main_card_content_description">profile image</string>
+
+
+</resources>

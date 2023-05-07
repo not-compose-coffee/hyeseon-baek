@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Art Space</string>
+    <string name="girl_pearl_title">The Girl with a Pearl Earring</string>
+    <string name="memory_title">The Persistence of Memory</string>
+    <string name="mona_lisa_title">Mona Lisa</string>
+    <string name="scream_title">The Scream</string>
+    <string name="girl_pearl_artist">Johannes Vermeer</string>
+    <string name="memory_artist">Salvador Dali</string>
+    <string name="mona_lisa_artist">Leonardo da Vinci</string>
+    <string name="scream_artist">Edvard Munch</string>
+    <string name="prv_button_text">Previous</string>
+    <string name="next_button_text">Next</string>
+
+
+</resources>
